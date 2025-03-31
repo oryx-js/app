@@ -1,0 +1,6 @@
+# .prettierignore
+node_modules/
+dist/
+logs/
+eslint.config.mjs
+src/core/system/validator.ts

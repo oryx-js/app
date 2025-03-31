@@ -1,0 +1,27 @@
+import Validator from '@core/system/validator';
+
+export default class {{Name}}Validation {
+    private static validator: Validator = new Validator();
+
+    public static sample(data: any): Validator {
+        this.validator.make(data, [
+            {
+                name: 'name',
+                label: 'Full Name',
+                type: `required|matches:[a-zA-Zs'-]`,
+            },
+            { name: 'email', label: 'Email Address', type: `required|isEmail` },
+            {
+                name: 'password',
+                label: 'Password',
+                type: 'required|isLength:8,20',
+            },
+            {
+                name: 'password_confirmation',
+                label: 'Password Confirmation',
+                type: 'required|same:password',
+            },
+        ]);
+        return this.validator;
+    }
+};
