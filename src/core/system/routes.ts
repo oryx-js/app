@@ -5,6 +5,7 @@ import {
     RoutesMiddleware,
     RouteHandler,
     RouteDefinition,
+    RouteHTTPHandler,
 } from '@type/core/system-routes';
 
 export default class Routes {
@@ -129,10 +130,12 @@ export default class Routes {
                     ...(route.middlewares || []),
                     async (req: Request, res: Response, next: NextFunction) => {
                         try {
-                            const result =
-                                handlerFunction.length === 3
-                                    ? handlerFunction(req, res, next)
-                                    : handlerFunction(req, res);
+                            const routeHttpHandler: RouteHTTPHandler = {
+                                request: req,
+                                response: res,
+                                next,
+                            };
+                            const result = handlerFunction(routeHttpHandler);
                             if (result instanceof Promise) await result;
                         } catch (error: any) {
                             Logger.error(

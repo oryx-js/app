@@ -5,6 +5,7 @@ import cors from 'cors';
 import Routes from '@core/system/routes';
 import { expressCors } from '@app/config/cors';
 import '@app/routes/regist';
+import HttpMiddlewares from '@app/http/middlewares/regist';
 
 export default class OryxExpress {
     public static express: Express = express();
@@ -20,6 +21,21 @@ export default class OryxExpress {
         this.express.use(express.urlencoded({ extended: true }));
         this.express.use(cookieParser());
         this.express.use(cors(expressCors));
+
+        // Setup EJS
+        this.express.set(
+            'views',
+            path.join(__dirname, '../../../public/views'),
+        );
+        this.express.set('view engine', 'ejs');
+
+        // Serve static files properly
+        this.express.use(
+            '/static',
+            express.static(path.join(__dirname, '../../../public/static')),
+        );
+
+        HttpMiddlewares.register();
     }
 
     private static routes() {
@@ -64,8 +80,10 @@ export default class OryxExpress {
         status: number = 200,
     ): void {
         try {
-            const viewPath = path.join(__dirname, view);
-            res.status(status).render(viewPath, data);
+            res.status(status).render(
+                path.join(__dirname, `../../../public/views/${view}.ejs`),
+                data,
+            );
         } catch (error: any) {
             this.resJson(res, false, 500, 'Failed to render view');
         }

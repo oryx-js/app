@@ -4,7 +4,7 @@ import Common from '@core/system/common';
 const DBCommonConfig = {
     entities: [
         Common.env<string>('APP_ENV', 'development') === 'development'
-            ? 'src/app/database/entities/*.ts'
+            ? 'src/app/database/entities/*.{ts,js}'
             : 'dist/app/database/entities/*.js',
     ],
     synchronize: Common.env<string>('DB_SYNC', 'off') === 'on',

@@ -1,8 +1,0 @@
-import { Database } from '@core/module/typeorm';
-import { Repository } from "typeorm";
-// import {{Name}}Entity from "@app/database/entities/{{Name}}.entity";
-
-export default class {{Name}}Repository {
-    // required: write your entity here for initialized seeder
-    // private static entity: Repository<{{Name}}Entity> = AppDataSource.getRepository({{Name}}Entity);
-};

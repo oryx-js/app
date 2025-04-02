@@ -1,6 +1,6 @@
 // reference : https://expressjs.com/en/resources/middleware/cors.html
 const expressCors = {
-    origin: '*',
+    origin: ['http://localhost:3456'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
         'Authorization',
@@ -17,7 +17,7 @@ const expressCors = {
 
 // reference : https://socket.io/docs/v4/handling-cors/
 const socketCors = {
-    origin: '*',
+    origin: ['http://localhost:3456'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: [
         'Authorization',

@@ -1,6 +1,6 @@
 {
     "name": "oryxjs",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "description": "OryxJS is a lightweight, modular, and scalable TypeScript-based framework",
     "keywords": [
         "framework",
@@ -28,8 +28,7 @@
         "dev": "nodemon -r tsconfig-paths/register --exec ts-node src/main.ts",
         "lint": "eslint . --ext .ts,.js",
         "lint-fix": "eslint . --ext .ts,.js --fix",
-        "format": "prettier --ignore-path .prettierignore --write src/**/*.ts",
-        "make": "npx ts-node -r tsconfig-paths/register src/core/system/logger.ts && npx ts-node -r tsconfig-paths/register src/core/system/cli/maker/make.ts"
+        "format": "prettier --ignore-path .prettierignore --write src/**/*.ts"
     },
     "dependencies": {
         "axios": "^1.8.4",
@@ -37,6 +36,7 @@
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
         "dotenv": "^16.4.7",
+        "ejs": "^3.1.10",
         "express": "^4.21.2",
         "ioredis": "^5.6.0",
         "jsonwebtoken": "^9.0.2",

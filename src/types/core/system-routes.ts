@@ -16,9 +16,13 @@ export type RoutesMethod =
     | 'head'
     | 'all';
 
-export type RouteHandler =
-    | ((req: Request, res: Response, next?: NextFunction) => any)
-    | [any, string];
+export type RouteHTTPHandler = {
+    request: Request;
+    response: Response;
+    next?: NextFunction;
+};
+
+export type RouteHandler = ((params: RouteHTTPHandler) => any) | [any, string];
 
 export interface RouteDefinition {
     methods: RoutesMethod[];

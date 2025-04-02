@@ -1,7 +1,5 @@
-import { Request, Response } from 'express';
+import { RouteHTTPHandler } from '@type/core/system-routes';
 import Routes from '@core/system/routes';
 import OryxExpress from '@core/module/express';
 
-Routes.get('/', (req: Request, res: Response) => {
-    OryxExpress.resJson(res, true, 200, 'Success');
-});
+/** controllers */

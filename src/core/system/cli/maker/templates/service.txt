@@ -1,9 +1,0 @@
-import Common from '@core/system/common';
-
-export default class {{Name}}Service {
-    public static async method() {
-        Common.handler(async () => {
-            return Common.rawJson(true, 200, 'Success', {});
-        });
-    }
-};

@@ -1,12 +1,12 @@
+import 'reflect-metadata';
 import dotenv from 'dotenv';
-import { Database } from '@core/module/typeorm';
 import Logger from '@core/system/logger';
 
 /** packacges init */
 dotenv.config();
 
-export default class Common {
-    public static env<T = any>(key: string, defValue?: T): T {
+class Common {
+    public static env<T>(key: string, defValue?: T): T {
         return (process.env[key] as T) ?? defValue!;
     }
 
@@ -65,15 +65,16 @@ export default class Common {
         entity: new () => T;
         data: Partial<T>[];
     }) {
+        const { Database } = await import('@core/module/typeorm');
         const repository = Database.getRepository(entity);
-    
+
         if (!data.length) {
             Logger.warn(`No data provided for ${entity.name}, seeding skipped`);
             return;
         }
-    
+
         const allColumns = Object.keys(data[0]);
-    
+
         await repository
             .createQueryBuilder()
             .insert()
@@ -81,10 +82,11 @@ export default class Common {
             .values(data)
             .orUpdate(allColumns, allColumns)
             .execute();
-    
+
         Logger.info(
-            `Seeder for '${entity.name}' executed successfully. Records were created and existing data was automatically updated.`,
+            `Seeder for '${entity.name.replace(/(Entity|entity)$/i, '')}' executed successfully. Records were created and existing data was automatically updated.`,
         );
     }
-    
 }
+
+export default Common;
