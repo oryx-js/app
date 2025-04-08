@@ -2,29 +2,22 @@ import 'reflect-metadata';
 import dotenv from 'dotenv';
 import Logger from '@core/system/logger';
 
-/** packacges init */
+/** Package initialization */
 dotenv.config();
 
 class Common {
     public static env<T>(key: string, defValue?: T): T {
-        return (process.env[key] as T) ?? defValue!;
+        const value = process.env[key];
+        return (value !== undefined ? (value as unknown as T) : defValue!)!;
     }
 
     public static baseUrl(segment: string = ''): string {
-        const baseUrl = this.env('APP_URL', 'http://localhost').replace(
-            /\/+$/,
-            '',
-        );
-        const port = this.env('APP_PORT', 3000)
-            ? `:${this.env('APP_PORT')}`
-            : '';
+        const baseUrl = this.env<string>('APP_URL', 'http://localhost').replace(/\/+$/, '');
+        const port = this.env<number>('APP_PORT', 3000) ? `:${this.env<number>('APP_PORT')}` : '';
         return `${baseUrl}${port}${segment ? `/${segment.replace(/^\/+/, '')}` : ''}`;
     }
 
-    public static extractUrl(
-        fullUrl: string,
-        get: Exclude<keyof URL, 'toJSON'>,
-    ) {
+    public static extractUrl(fullUrl: string, get: Exclude<keyof URL, 'toJSON'>) {
         try {
             return new URL(fullUrl)[get];
         } catch {
@@ -34,7 +27,7 @@ class Common {
 
     public static async handler<T>(
         callback: () => Promise<T>,
-        shouldThrow: boolean | ((error: any) => void) = false,
+        shouldThrow: boolean | ((error: any) => void) = false
     ): Promise<T> {
         try {
             return await callback();
@@ -44,7 +37,7 @@ class Common {
             } else if (shouldThrow) {
                 throw error;
             }
-            return this.rawJson(false, 500, error, null) as T;
+            return Promise.reject(error);
         }
     }
 
@@ -53,7 +46,7 @@ class Common {
         code: number = 200,
         message: string = '',
         result: object | any[] | null = {},
-        custom: Partial<Record<string, any>> = {},
+        custom: Partial<Record<string, any>> = {}
     ) {
         return { status, code, message, result, ...custom };
     }
@@ -84,7 +77,7 @@ class Common {
             .execute();
 
         Logger.info(
-            `Seeder for '${entity.name.replace(/(Entity|entity)$/i, '')}' executed successfully. Records were created and existing data was automatically updated.`,
+            `Seeder for '${entity.name.replace(/(Entity|entity)$/i, '')}' executed successfully. Records were created and existing data was automatically updated.`
         );
     }
 }
